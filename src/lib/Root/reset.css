@@ -1,0 +1,21 @@
+* {
+	box-sizing: border-box;
+}
+
+/* Non selectable text. */
+* {
+	user-select: none;
+
+	/* For Webkit. */
+	-webkit-user-select: none;
+	cursor: default;
+}
+
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+}
+
+canvas {
+	display: block;
+}

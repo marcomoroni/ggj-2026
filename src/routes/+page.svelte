@@ -1,2 +1,18 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import Game from '$lib/Game';
+	import Root from '$lib/Root';
+	import { placeholderGameDefinition } from '$lib/placeholder-game';
+</script>
+
+<Root>
+	<div class="game-viewport">
+		<Game gameDefinition={placeholderGameDefinition} />
+	</div>
+</Root>
+
+<style>
+	.game-viewport {
+		height: 100dvh;
+		width: 100dvw;
+	}
+</style>
