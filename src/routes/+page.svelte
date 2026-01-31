@@ -10,6 +10,7 @@
 		<Rules />
 		<ParticipantsRow />
 		<BottomBar />
+		<div class="spacer-bottom"></div>
 	</div>
 </Root>
 
@@ -24,5 +25,9 @@
 		font-family: 'Figtree';
 		font-size: 16px;
 		font-weight: 500;
+	}
+
+	.spacer-bottom {
+		height: 40px;
 	}
 </style>

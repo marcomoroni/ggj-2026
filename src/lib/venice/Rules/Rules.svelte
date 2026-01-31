@@ -1,22 +1,22 @@
 <div class="root">
 	<p>
-		The Carnival of Venice is about to begin! Five Carnival participants are standing in a row,
-		ready to perform. Assign each the correct mask colour following these rules:
+		The Grand Carnival of Venice is upon us! Five distinguished participants await their
+		performance. Bestow upon each their rightful mask by adhering to the following decrees:
 	</p>
 	<ul>
 		<li>The <span class="solution-green">Green</span> mask is at one end of the row.</li>
 		<li>The <span class="solution-purple">Purple</span> mask is not at either end of the row.</li>
 		<li>
-			The <span class="solution-red">Red</span> mask is to the right of the
-			<span class="solution-yellow">Yellow</span> mask, but they are not adjacent.
+			The <span class="solution-red">Red</span> mask is positioned to the right of the
+			<span class="solution-yellow">Yellow</span> mask, yet they must not stand side-by-side.
 		</li>
 		<li>
-			The <span class="solution-cyan">Cyan</span> mask is immediately to the right of the
+			The <span class="solution-cyan">Cyan</span> mask is positioned immediately to the right of the
 			<span class="solution-purple">Purple</span> mask.
 		</li>
-		<li>The <span class="solution-cyan">Cyan</span> mask is not in the middle position.</li>
+		<li>The <span class="solution-cyan">Cyan</span> mask shall not occupy the central position.</li>
 	</ul>
-	<p>Drag and drop the masks on the participants.</p>
+	<p>Drag and drop each mask upon its wearer.</p>
 </div>
 
 <style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Attachment } from 'svelte/attachments';
 	import type { MaskId, ParticipantId } from '..';
 
 	let {
@@ -7,6 +8,31 @@
 		containerHeight
 	}: { participantId: ParticipantId; maskId?: MaskId | undefined; containerHeight: number } =
 		$props();
+
+	let isDraggingMask = $state<{ kind: 'no' } | { kind: 'yes'; x: number; y: number }>({
+		kind: 'no'
+	});
+
+	function dragAndDrop(): Attachment<HTMLDivElement> {
+		return (element) => {
+			element.addEventListener('pointerdown', (event) => {
+				event.preventDefault();
+				isDraggingMask = { kind: 'yes', x: event.clientX, y: event.clientY };
+			});
+			element.addEventListener('pointermove', (event) => {
+				event.preventDefault();
+				isDraggingMask = { kind: 'yes', x: event.clientX, y: event.clientY };
+			});
+			element.addEventListener('pointerup', (event) => {
+				event.preventDefault();
+				isDraggingMask = { kind: 'no' };
+			});
+			element.addEventListener('pointercancel', (event) => {
+				event.preventDefault();
+				isDraggingMask = { kind: 'no' };
+			});
+		};
+	}
 </script>
 
 <div
@@ -31,6 +57,7 @@
 			maskId === 'purple' && 'mask-purple'
 		]}
 		style:--container-height={`${containerHeight}px`}
+		{@attach dragAndDrop()}
 	></div>
 {/if}
 
@@ -42,7 +69,7 @@
 		bottom: 0;
 		transform: translateX(-50%);
 		height: var(--container-height);
-		aspect-ratio: 315 / 1193;
+		aspect-ratio: 315 / 1125;
 
 		background-size: contain;
 		background-position: center;
@@ -87,5 +114,13 @@
 
 	.mask-purple {
 		background-image: url($lib/venice/ParticipantsRow/mask_purple.png);
+	}
+
+	.mask {
+		cursor: grab;
+	}
+
+	.mask:active {
+		cursor: grabbing;
 	}
 </style>
