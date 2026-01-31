@@ -13,10 +13,7 @@
 	.root {
 		font-size: 16px;
 		line-height: 1.5;
-		height: 100dvh;
-		overflow: clip;
+		min-height: 100dvh;
 		isolation: isolate;
-		background-color: grey;
-		display: grid;
 	}
 </style>

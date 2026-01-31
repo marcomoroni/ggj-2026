@@ -1,18 +1,27 @@
 <script lang="ts">
-	import Game from '$lib/Game';
 	import Root from '$lib/Root';
-	import { placeholderGameDefinition } from '$lib/placeholder-game';
+	import ParticipantsRow from '$lib/venice/ParticipantsRow';
+	import Rules from '$lib/venice/Rules';
 </script>
 
 <Root>
-	<div class="game-viewport">
-		<Game gameDefinition={placeholderGameDefinition} />
+	<div class="column">
+		<Rules />
+		<ParticipantsRow />
 	</div>
+	<button class="confirm-button">Confirm</button>
 </Root>
 
 <style>
-	.game-viewport {
-		height: 100dvh;
-		width: 100dvw;
+	.column {
+		display: grid;
+		grid-template-rows: auto 1fr;
+		min-height: calc(100dvh + 200px);
+		position: relative;
+	}
+
+	.confirm-button {
+		position: sticky;
+		bottom: 0;
 	}
 </style>

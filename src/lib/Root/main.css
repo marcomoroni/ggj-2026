@@ -1,9 +1,3 @@
-html {
-	/* For WebKit: Prevent browser gesture navigations and overscroll. */
-	overscroll-behavior: none;
-}
-
 body {
-	/* For Chromium: Prevent browser gesture navigations and overscroll. */
-	overscroll-behavior: none;
+	background-color: #1e2b08;
 }
