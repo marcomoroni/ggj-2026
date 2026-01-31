@@ -42,7 +42,7 @@
 		bottom: 0;
 		transform: translateX(-50%);
 		height: var(--container-height);
-		aspect-ratio: 384 / 1260;
+		aspect-ratio: 315 / 1193;
 
 		background-size: contain;
 		background-position: center;

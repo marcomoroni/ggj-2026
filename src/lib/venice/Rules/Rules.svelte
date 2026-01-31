@@ -20,20 +20,13 @@
 </div>
 
 <style>
-	@font-face {
-		font-family: 'Figtree';
-		src: url($lib/venice/Figtree.ttf);
-	}
-
 	.root {
-		font-family: 'Figtree';
 		color: #f0eed7;
-		font-size: 16px;
 		line-height: 1.6;
-		font-weight: 500;
-		padding: 40px;
-		max-width: 600px;
-		padding-bottom: unset;
+		padding: 60px;
+		max-width: 700px;
+		padding-bottom: 30px;
+		margin-inline: auto;
 	}
 
 	p,

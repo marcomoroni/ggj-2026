@@ -28,11 +28,11 @@
 
 <style>
 	.row {
-		/* display: flex; */
-		/* gap: 200px; */
+		height: 800px;
+		max-width: 1200px;
+		margin-inline: auto;
+
 		position: relative;
-		height: 100%;
-		border: 2px solid salmon;
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);
 		justify-items: center;
@@ -43,8 +43,7 @@
 
 	.pivot {
 		position: relative;
-		width: 10px;
-		height: 10px;
-		background-color: red;
+		width: 0px;
+		height: 0px;
 	}
 </style>

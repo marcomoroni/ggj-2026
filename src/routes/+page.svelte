@@ -1,27 +1,28 @@
 <script lang="ts">
 	import Root from '$lib/Root';
+	import BottomBar from '$lib/venice/BottomBar/BottomBar.svelte';
 	import ParticipantsRow from '$lib/venice/ParticipantsRow';
 	import Rules from '$lib/venice/Rules';
 </script>
 
 <Root>
-	<div class="column">
+	<div class="font">
 		<Rules />
 		<ParticipantsRow />
+		<BottomBar />
 	</div>
-	<button class="confirm-button">Confirm</button>
 </Root>
 
 <style>
-	.column {
-		display: grid;
-		grid-template-rows: auto 1fr;
-		min-height: calc(100dvh + 200px);
-		position: relative;
+	@font-face {
+		font-family: 'Figtree';
+		src: url($lib/Figtree.ttf);
 	}
 
-	.confirm-button {
-		position: sticky;
-		bottom: 0;
+	.font {
+		display: contents;
+		font-family: 'Figtree';
+		font-size: 16px;
+		font-weight: 500;
 	}
 </style>
