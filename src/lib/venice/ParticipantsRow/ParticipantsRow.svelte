@@ -2,15 +2,11 @@
 	import Participant from './Participant.svelte';
 	import { type ParticipantId, type MaskId, participantIds } from '..';
 
-	let rowHeight = $state(0);
+	let {
+		maskAssignments = $bindable()
+	}: { maskAssignments: Record<ParticipantId, MaskId | undefined> } = $props();
 
-	let maskAssignments = $state<Record<ParticipantId, MaskId | undefined>>({
-		a: 'red',
-		b: 'yellow',
-		c: 'green',
-		d: 'cyan',
-		e: 'purple'
-	});
+	let rowHeight = $state(0);
 
 	function handleDropMask(sourceParticipantId: ParticipantId, targetParticipantId: ParticipantId) {
 		if (sourceParticipantId === targetParticipantId) return;

@@ -1,15 +1,25 @@
 <script lang="ts">
+	import { correctMaskAssignments, type MaskId, type ParticipantId } from '..';
+
+	let { maskAssignments }: { maskAssignments: Record<ParticipantId, MaskId | undefined> } =
+		$props();
+
 	function onConfirm() {
 		// ... scroll to participants row
 		// ... check if correct
-		//
+
+		const isCorrect = Object.entries(maskAssignments).every(([participantId, maskId]) => {
+			return maskId === correctMaskAssignments[participantId as ParticipantId];
+		});
+
+		console.log({ isCorrect });
 	}
 
 	// ... add a restart button
 </script>
 
 <div class="container">
-	<button class="confirm-button">Confirm</button>
+	<button class="confirm-button" onclick={onConfirm}>Confirm</button>
 </div>
 
 <style>
