@@ -7,19 +7,26 @@
 		maskAssignments,
 		revealParticipantsRow,
 		scrollToParticipantsRow,
-		playJumpAnimations = $bindable()
+		playJumpAnimations = $bindable(),
+		restart
 	}: {
 		maskAssignments: Record<ParticipantId, MaskId | undefined>;
 		revealParticipantsRow: () => void;
 		scrollToParticipantsRow: () => void;
 		playJumpAnimations: boolean;
+		restart: () => void;
 	} = $props();
 
 	const transitionDuration = 700;
 
-	let state = $state<'showStartButton' | 'correct' | 'incorrect' | 'showConfirmButton'>(
-		'showStartButton'
-	);
+	let state = $state<
+		| 'empty'
+		| 'showStartButton'
+		| 'correct'
+		| 'incorrect'
+		| 'showConfirmButton'
+		| 'showRestartButton'
+	>('showStartButton');
 
 	$effect(() => {
 		if (state === 'incorrect') {
@@ -31,7 +38,10 @@
 
 	function onStart() {
 		revealParticipantsRow();
-		state = 'showConfirmButton';
+		state = 'empty';
+		setTimeout(() => {
+			state = 'showConfirmButton';
+		}, 4000);
 	}
 
 	function onConfirm() {
@@ -41,14 +51,15 @@
 
 		if (isCorrect) {
 			state = 'correct';
-			scrollToParticipantsRow();
+			// scrollToParticipantsRow();
 			playJumpAnimations = true;
+			setTimeout(() => {
+				state = 'showRestartButton';
+			}, 6000);
 		} else {
 			state = 'incorrect';
 		}
 	}
-
-	// ... add a restart button
 </script>
 
 <div class="container">
@@ -57,15 +68,28 @@
 			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
 			out:fade={{ duration: transitionDuration, easing: quadInOut }}
 			class="confirm-button"
-			onclick={onConfirm}>Confirm</button
+			onclick={onConfirm}
 		>
+			Confirm
+		</button>
 	{:else if state === 'showStartButton'}
 		<button
 			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
 			out:fade={{ duration: transitionDuration, easing: quadInOut }}
 			class="start-button"
-			onclick={onStart}>Start</button
+			onclick={onStart}
 		>
+			Start
+		</button>
+	{:else if state === 'showRestartButton'}
+		<button
+			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
+			out:fade={{ duration: transitionDuration, easing: quadInOut }}
+			class="restart-button"
+			onclick={restart}
+		>
+			Restart
+		</button>
 	{:else if state === 'correct'}
 		<div
 			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
@@ -112,6 +136,7 @@
 
 	.confirm-button,
 	.start-button,
+	.restart-button,
 	.label-correct-answers,
 	.label-incorrect-answers {
 		margin-bottom: 30px;
@@ -120,7 +145,8 @@
 	}
 
 	.confirm-button,
-	.start-button {
+	.start-button,
+	.restart-button {
 		margin-left: 30px;
 		margin-right: 30px;
 		border-radius: calc(infinity * 1px);

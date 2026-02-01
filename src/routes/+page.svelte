@@ -15,6 +15,12 @@
 	let revealParticipantsRow = $state(() => {});
 	let scrollToParticipantsRow = $state(() => {});
 	let playJumpAnimations = $state(false);
+
+	function restart() {
+		history.scrollRestoration = 'manual';
+		window.scrollTo(0, 0);
+		window.location.reload();
+	}
 </script>
 
 <Root>
@@ -31,6 +37,7 @@
 			{revealParticipantsRow}
 			{scrollToParticipantsRow}
 			bind:playJumpAnimations
+			{restart}
 		/>
 		<div class="spacer-bottom"></div>
 	</div>
