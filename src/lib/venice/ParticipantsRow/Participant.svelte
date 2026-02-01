@@ -5,9 +5,14 @@
 	let {
 		participantId,
 		maskId,
-		containerHeight
-	}: { participantId: ParticipantId; maskId?: MaskId | undefined; containerHeight: number } =
-		$props();
+		containerHeight,
+		onDropMask
+	}: {
+		participantId: ParticipantId;
+		maskId?: MaskId | undefined;
+		containerHeight: number;
+		onDropMask: (targetParticipantId: ParticipantId) => void;
+	} = $props();
 
 	let isDraggingMask = $state<
 		| { kind: 'no' }
@@ -37,6 +42,17 @@
 			element.addEventListener('pointerup', (event) => {
 				if (isDraggingMask.kind === 'no') return;
 				event.preventDefault();
+
+				const targetElement = document.elementFromPoint(event.clientX, event.clientY);
+				const pivotElement = targetElement?.closest('.pivot');
+				const targetParticipantId = pivotElement?.getAttribute(
+					'data-participant-id'
+				) as ParticipantId | null;
+
+				if (targetParticipantId) {
+					onDropMask(targetParticipantId);
+				}
+
 				isDraggingMask = { kind: 'no' };
 			});
 			element.addEventListener('pointercancel', (event) => {
@@ -110,6 +126,7 @@
 	.dragging-in-progress {
 		transform: translateX(var(--drag-dx)) translateY(var(--drag-dy));
 		z-index: 100;
+		pointer-events: none;
 	}
 
 	.participant-a {
@@ -150,13 +167,5 @@
 
 	.mask-purple {
 		background-image: url($lib/venice/ParticipantsRow/mask_purple.png);
-	}
-
-	.mask {
-		cursor: grab;
-	}
-
-	.mask:active {
-		cursor: grabbing;
 	}
 </style>

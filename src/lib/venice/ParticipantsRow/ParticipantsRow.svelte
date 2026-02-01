@@ -1,26 +1,36 @@
-<script lang="ts" module>
-	import Participant from './Participant.svelte';
-
-	const participants = [
-		{ id: 'a' as const, initialMask: 'red' as const },
-		{ id: 'b' as const, initialMask: 'yellow' as const },
-		{ id: 'c' as const, initialMask: 'green' as const },
-		{ id: 'd' as const, initialMask: 'cyan' as const },
-		{ id: 'e' as const, initialMask: 'purple' as const }
-	];
-</script>
-
 <script lang="ts">
+	import Participant from './Participant.svelte';
+	import { type ParticipantId, type MaskId, participantIds } from '..';
+
 	let rowHeight = $state(0);
+
+	let maskAssignments = $state<Record<ParticipantId, MaskId | undefined>>({
+		a: 'red',
+		b: 'yellow',
+		c: 'green',
+		d: 'cyan',
+		e: 'purple'
+	});
+
+	function handleDropMask(sourceParticipantId: ParticipantId, targetParticipantId: ParticipantId) {
+		if (sourceParticipantId === targetParticipantId) return;
+
+		const sourceMask = maskAssignments[sourceParticipantId];
+		const targetMask = maskAssignments[targetParticipantId];
+
+		maskAssignments[sourceParticipantId] = targetMask;
+		maskAssignments[targetParticipantId] = sourceMask;
+	}
 </script>
 
 <div class="row" bind:clientHeight={rowHeight}>
-	{#each participants as participant}
-		<div class="pivot">
+	{#each participantIds as id}
+		<div class="pivot" data-participant-id={id}>
 			<Participant
-				participantId={participant.id}
-				maskId={participant.initialMask}
+				participantId={id}
+				maskId={maskAssignments[id]}
 				containerHeight={rowHeight}
+				onDropMask={(targetId) => handleDropMask(id, targetId)}
 			/>
 		</div>
 	{/each}
