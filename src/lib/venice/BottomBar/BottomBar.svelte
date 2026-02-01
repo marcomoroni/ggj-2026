@@ -17,7 +17,7 @@
 		restart: () => void;
 	} = $props();
 
-	const transitionDuration = 700;
+	const transitionDuration = 400;
 
 	let state = $state<
 		| 'empty'
@@ -165,13 +165,14 @@
 			var(--background-base-color) 0px 0px 20px;
 		-webkit-text-stroke: 3px var(--background-base-color);
 		paint-order: stroke fill;
+		/* font-size: 22px; */
 	}
 
 	.label-correct-answers {
-		color: #9ac033;
+		color: #afcc5d;
 	}
 
 	.label-incorrect-answers {
-		color: #dc4d26;
+		color: #e16745;
 	}
 </style>

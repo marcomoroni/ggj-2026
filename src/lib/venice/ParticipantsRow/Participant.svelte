@@ -213,35 +213,45 @@
 	.decoration-animation-pivot.revealed {
 		animation-name: appear;
 		animation-timing-function: ease-out;
+		animation-duration: 1s;
+		animation-fill-mode: backwards;
 	}
 
 	.decoration-animation-pivot-a {
-		animation-duration: 1.5s;
+		animation-delay: 0.5s;
 	}
 
 	.decoration-animation-pivot-b {
-		animation-duration: 2.2s;
+		animation-delay: 0.7s;
 	}
 
 	.decoration-animation-pivot-c {
-		animation-duration: 2.9s;
+		animation-delay: 0.9s;
 	}
 
 	.decoration-animation-pivot-d {
-		animation-duration: 3.6s;
+		animation-delay: 1.1s;
 	}
 
 	.decoration-animation-pivot-e {
-		animation-duration: 4.3s;
+		animation-delay: 1.3s;
 	}
 
 	@keyframes appear {
-		from {
-			transform: translate3d(20px, -80px, 0) scale(0.7);
+		0% {
+			transform: translate3d(0, 0, 0);
 			opacity: 0;
 		}
-		to {
-			transform: translate3d(0, 0, 0) scale(1);
+		10% {
+			transform: translate3d(0, -6px, 0);
+			opacity: 1;
+		}
+		20% {
+			transform: translate3d(0, 0, 0);
+			opacity: 1;
+		}
+		100% {
+			transform: translate3d(0, 0, 0);
 			opacity: 1;
 		}
 	}
