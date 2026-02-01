@@ -3,8 +3,12 @@
 	import { type ParticipantId, type MaskId, participantIds } from '..';
 
 	let {
-		maskAssignments = $bindable()
-	}: { maskAssignments: Record<ParticipantId, MaskId | undefined> } = $props();
+		maskAssignments = $bindable(),
+		scrollToParticipantsRow = $bindable()
+	}: {
+		maskAssignments: Record<ParticipantId, MaskId | undefined>;
+		scrollToParticipantsRow: () => void;
+	} = $props();
 
 	let rowHeight = $state(0);
 
@@ -17,9 +21,14 @@
 		maskAssignments[sourceParticipantId] = targetMask;
 		maskAssignments[targetParticipantId] = sourceMask;
 	}
+
+	let participantRowElement = $state<HTMLDivElement>();
+	scrollToParticipantsRow = () => {
+		participantRowElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	};
 </script>
 
-<div class="row" bind:clientHeight={rowHeight}>
+<div class="row" bind:clientHeight={rowHeight} bind:this={participantRowElement}>
 	{#each participantIds as id}
 		<div class="pivot" data-participant-id={id}>
 			<Participant

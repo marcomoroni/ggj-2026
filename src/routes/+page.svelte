@@ -12,13 +12,14 @@
 		d: 'cyan',
 		e: 'purple'
 	});
+	let scrollToParticipantsRow = $state(() => {});
 </script>
 
 <Root>
 	<div class="font">
 		<Rules />
-		<ParticipantsRow bind:maskAssignments />
-		<BottomBar {maskAssignments} />
+		<ParticipantsRow bind:maskAssignments bind:scrollToParticipantsRow />
+		<BottomBar {maskAssignments} {scrollToParticipantsRow} />
 		<div class="spacer-bottom"></div>
 	</div>
 </Root>
