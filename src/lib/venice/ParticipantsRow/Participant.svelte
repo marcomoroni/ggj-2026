@@ -9,7 +9,10 @@
 	}: { participantId: ParticipantId; maskId?: MaskId | undefined; containerHeight: number } =
 		$props();
 
-	let isDraggingMask = $state<{ kind: 'no' } | { kind: 'yes'; x: number; y: number }>({
+	let isDraggingMask = $state<
+		| { kind: 'no' }
+		| { kind: 'yes'; startX: number; startY: number; currentX: number; currentY: number }
+	>({
 		kind: 'no'
 	});
 
@@ -17,17 +20,27 @@
 		return (element) => {
 			element.addEventListener('pointerdown', (event) => {
 				event.preventDefault();
-				isDraggingMask = { kind: 'yes', x: event.clientX, y: event.clientY };
+				element.setPointerCapture(event.pointerId);
+				isDraggingMask = {
+					kind: 'yes',
+					startX: event.clientX,
+					startY: event.clientY,
+					currentX: event.clientX,
+					currentY: event.clientY
+				};
 			});
 			element.addEventListener('pointermove', (event) => {
+				if (isDraggingMask.kind === 'no') return;
 				event.preventDefault();
-				isDraggingMask = { kind: 'yes', x: event.clientX, y: event.clientY };
+				isDraggingMask = { ...isDraggingMask, currentX: event.clientX, currentY: event.clientY };
 			});
 			element.addEventListener('pointerup', (event) => {
+				if (isDraggingMask.kind === 'no') return;
 				event.preventDefault();
 				isDraggingMask = { kind: 'no' };
 			});
 			element.addEventListener('pointercancel', (event) => {
+				if (isDraggingMask.kind === 'no') return;
 				event.preventDefault();
 				isDraggingMask = { kind: 'no' };
 			});
@@ -48,17 +61,27 @@
 ></div>
 {#if maskId}
 	<div
-		class={[
-			'mask',
-			maskId === 'red' && 'mask-red',
-			maskId === 'yellow' && 'mask-yellow',
-			maskId === 'green' && 'mask-green',
-			maskId === 'cyan' && 'mask-cyan',
-			maskId === 'purple' && 'mask-purple'
-		]}
-		style:--container-height={`${containerHeight}px`}
-		{@attach dragAndDrop()}
-	></div>
+		class={['mask-drag-and-drop-pivot', isDraggingMask.kind === 'yes' && 'dragging-in-progress']}
+		style:--drag-dx={isDraggingMask.kind === 'yes'
+			? `${isDraggingMask.currentX - isDraggingMask.startX}px`
+			: undefined}
+		style:--drag-dy={isDraggingMask.kind === 'yes'
+			? `${isDraggingMask.currentY - isDraggingMask.startY}px`
+			: undefined}
+	>
+		<div
+			class={[
+				'mask',
+				maskId === 'red' && 'mask-red',
+				maskId === 'yellow' && 'mask-yellow',
+				maskId === 'green' && 'mask-green',
+				maskId === 'cyan' && 'mask-cyan',
+				maskId === 'purple' && 'mask-purple'
+			]}
+			style:--container-height={`${containerHeight}px`}
+			{@attach dragAndDrop()}
+		></div>
+	</div>
 {/if}
 
 <style>
@@ -74,6 +97,19 @@
 		background-size: contain;
 		background-position: center;
 		background-repeat: no-repeat;
+	}
+
+	.mask-drag-and-drop-pivot {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 0;
+		width: 0;
+	}
+
+	.dragging-in-progress {
+		transform: translateX(var(--drag-dx)) translateY(var(--drag-dy));
+		z-index: 100;
 	}
 
 	.participant-a {

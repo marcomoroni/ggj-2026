@@ -1,3 +1,13 @@
+<script lang="ts">
+	function onConfirm() {
+		// ... scroll to participants row
+		// ... check if correct
+		//
+	}
+
+	// ... add a restart button
+</script>
+
 <div class="container">
 	<button class="confirm-button">Confirm</button>
 </div>
