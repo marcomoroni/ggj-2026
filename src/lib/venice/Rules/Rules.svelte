@@ -11,7 +11,7 @@
 			<span class="solution-yellow">Yellow</span> mask, yet they must not stand side-by-side.
 		</li>
 		<li>
-			The <span class="solution-cyan">Cyan</span> mask is positioned immediately to the right of the
+			The <span class="solution-cyan">Cyan</span> mask is positioned immediately to the left of the
 			<span class="solution-purple">Purple</span> mask.
 		</li>
 		<li>The <span class="solution-cyan">Cyan</span> mask shall not occupy the central position.</li>
@@ -24,7 +24,7 @@
 		color: #f0eed7;
 		line-height: 1.6;
 		padding: 60px;
-		max-width: 700px;
+		max-width: 800px;
 		padding-bottom: 30px;
 		margin-inline: auto;
 	}
