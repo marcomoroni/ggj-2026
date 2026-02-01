@@ -15,6 +15,7 @@
 	let revealParticipantsRow = $state(() => {});
 	let scrollToParticipantsRow = $state(() => {});
 	let playJumpAnimations = $state(false);
+	let makeMasksInert = $state(() => {});
 
 	function restart() {
 		history.scrollRestoration = 'manual';
@@ -31,6 +32,7 @@
 			bind:maskAssignments
 			bind:revealParticipantsRow
 			bind:scrollToParticipantsRow
+			bind:makeMasksInert
 		/>
 		<BottomBar
 			{maskAssignments}
@@ -38,6 +40,7 @@
 			{scrollToParticipantsRow}
 			bind:playJumpAnimations
 			{restart}
+			{makeMasksInert}
 		/>
 		<div class="spacer-bottom"></div>
 	</div>

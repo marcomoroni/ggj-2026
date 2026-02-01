@@ -8,13 +8,15 @@
 		revealParticipantsRow,
 		scrollToParticipantsRow,
 		playJumpAnimations = $bindable(),
-		restart
+		restart,
+		makeMasksInert
 	}: {
 		maskAssignments: Record<ParticipantId, MaskId | undefined>;
 		revealParticipantsRow: () => void;
 		scrollToParticipantsRow: () => void;
 		playJumpAnimations: boolean;
 		restart: () => void;
+		makeMasksInert: () => void;
 	} = $props();
 
 	const transitionDuration = 400;
@@ -48,6 +50,7 @@
 		});
 
 		if (isCorrect) {
+			makeMasksInert();
 			state = 'correct';
 			// scrollToParticipantsRow();
 			playJumpAnimations = true;

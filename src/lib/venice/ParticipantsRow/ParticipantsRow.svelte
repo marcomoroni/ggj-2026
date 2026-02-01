@@ -6,17 +6,20 @@
 		maskAssignments = $bindable(),
 		revealParticipantsRow = $bindable(),
 		scrollToParticipantsRow = $bindable(),
-		playJumpAnimations = $bindable()
+		playJumpAnimations = $bindable(),
+		makeMasksInert = $bindable()
 	}: {
 		maskAssignments: Record<ParticipantId, MaskId | undefined>;
 		revealParticipantsRow: () => void;
 		scrollToParticipantsRow: () => void;
 		playJumpAnimations: boolean;
+		makeMasksInert: () => void;
 	} = $props();
 
 	let rowHeight = $state(0);
 
 	let isRevealed = $state(false);
+	let inert = $state(false);
 
 	function handleDropMask(sourceParticipantId: ParticipantId, targetParticipantId: ParticipantId) {
 		if (sourceParticipantId === targetParticipantId) return;
@@ -35,13 +38,16 @@
 	scrollToParticipantsRow = () => {
 		participantRowElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 	};
+	makeMasksInert = () => {
+		inert = true;
+	};
 </script>
 
 <div
 	class="row"
 	bind:clientHeight={rowHeight}
 	bind:this={participantRowElement}
-	inert={!isRevealed}
+	inert={!isRevealed || inert}
 >
 	{#each participantIds as id}
 		<div class="pivot" data-participant-id={id}>
