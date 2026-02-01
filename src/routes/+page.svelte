@@ -12,14 +12,26 @@
 		d: 'cyan',
 		e: 'purple'
 	});
+	let revealParticipantsRow = $state(() => {});
 	let scrollToParticipantsRow = $state(() => {});
+	let playJumpAnimations = $state(false);
 </script>
 
 <Root>
 	<div class="font">
 		<Rules />
-		<ParticipantsRow bind:maskAssignments bind:scrollToParticipantsRow />
-		<BottomBar {maskAssignments} {scrollToParticipantsRow} />
+		<ParticipantsRow
+			bind:playJumpAnimations
+			bind:maskAssignments
+			bind:revealParticipantsRow
+			bind:scrollToParticipantsRow
+		/>
+		<BottomBar
+			{maskAssignments}
+			{revealParticipantsRow}
+			{scrollToParticipantsRow}
+			bind:playJumpAnimations
+		/>
 		<div class="spacer-bottom"></div>
 	</div>
 </Root>

@@ -5,15 +5,21 @@
 
 	let {
 		maskAssignments,
-		scrollToParticipantsRow
+		revealParticipantsRow,
+		scrollToParticipantsRow,
+		playJumpAnimations = $bindable()
 	}: {
 		maskAssignments: Record<ParticipantId, MaskId | undefined>;
+		revealParticipantsRow: () => void;
 		scrollToParticipantsRow: () => void;
+		playJumpAnimations: boolean;
 	} = $props();
 
 	const transitionDuration = 700;
 
-	let state = $state<'correct' | 'incorrect' | 'showConfirmButton'>('showConfirmButton');
+	let state = $state<'showStartButton' | 'correct' | 'incorrect' | 'showConfirmButton'>(
+		'showStartButton'
+	);
 
 	$effect(() => {
 		if (state === 'incorrect') {
@@ -23,6 +29,11 @@
 		}
 	});
 
+	function onStart() {
+		revealParticipantsRow();
+		state = 'showConfirmButton';
+	}
+
 	function onConfirm() {
 		const isCorrect = Object.entries(maskAssignments).every(([participantId, maskId]) => {
 			return maskId === correctMaskAssignments[participantId as ParticipantId];
@@ -31,6 +42,7 @@
 		if (isCorrect) {
 			state = 'correct';
 			scrollToParticipantsRow();
+			playJumpAnimations = true;
 		} else {
 			state = 'incorrect';
 		}
@@ -46,6 +58,13 @@
 			out:fade={{ duration: transitionDuration, easing: quadInOut }}
 			class="confirm-button"
 			onclick={onConfirm}>Confirm</button
+		>
+	{:else if state === 'showStartButton'}
+		<button
+			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
+			out:fade={{ duration: transitionDuration, easing: quadInOut }}
+			class="start-button"
+			onclick={onStart}>Start</button
 		>
 	{:else if state === 'correct'}
 		<div
@@ -92,6 +111,7 @@
 	}
 
 	.confirm-button,
+	.start-button,
 	.label-correct-answers,
 	.label-incorrect-answers {
 		margin-bottom: 30px;
@@ -99,7 +119,8 @@
 		align-content: center;
 	}
 
-	.confirm-button {
+	.confirm-button,
+	.start-button {
 		margin-left: 30px;
 		margin-right: 30px;
 		border-radius: calc(infinity * 1px);

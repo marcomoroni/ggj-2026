@@ -6,12 +6,16 @@
 		participantId,
 		maskId,
 		containerHeight,
-		onDropMask
+		onDropMask,
+		isRevealed,
+		playJumpAnimation
 	}: {
 		participantId: ParticipantId;
 		maskId?: MaskId | undefined;
 		containerHeight: number;
 		onDropMask: (targetParticipantId: ParticipantId) => void;
+		isRevealed: boolean;
+		playJumpAnimation: boolean;
 	} = $props();
 
 	let isDraggingMask = $state<
@@ -66,39 +70,66 @@
 
 <div
 	class={[
-		'participant',
-		participantId === 'a' && 'participant-a',
-		participantId === 'b' && 'participant-b',
-		participantId === 'c' && 'participant-c',
-		participantId === 'd' && 'participant-d',
-		participantId === 'e' && 'participant-e'
+		'decoration-animation-pivot',
+		participantId === 'a' && 'decoration-animation-pivot-a',
+		participantId === 'b' && 'decoration-animation-pivot-b',
+		participantId === 'c' && 'decoration-animation-pivot-c',
+		participantId === 'd' && 'decoration-animation-pivot-d',
+		participantId === 'e' && 'decoration-animation-pivot-e',
+		isRevealed && 'revealed'
 	]}
-	style:--container-height={`${containerHeight}px`}
-></div>
-{#if maskId}
+>
 	<div
-		class={['mask-drag-and-drop-pivot', isDraggingMask.kind === 'yes' && 'dragging-in-progress']}
-		style:--drag-dx={isDraggingMask.kind === 'yes'
-			? `${isDraggingMask.currentX - isDraggingMask.startX}px`
-			: undefined}
-		style:--drag-dy={isDraggingMask.kind === 'yes'
-			? `${isDraggingMask.currentY - isDraggingMask.startY}px`
-			: undefined}
+		class={[
+			'jump-animation-pivot',
+			playJumpAnimation && 'jump-animation-active',
+			participantId === 'a' && 'jump-animation-pivot-a',
+			participantId === 'b' && 'jump-animation-pivot-b',
+			participantId === 'c' && 'jump-animation-pivot-c',
+			participantId === 'd' && 'jump-animation-pivot-d',
+			participantId === 'e' && 'jump-animation-pivot-e'
+		]}
 	>
 		<div
 			class={[
-				'mask',
-				maskId === 'red' && 'mask-red',
-				maskId === 'yellow' && 'mask-yellow',
-				maskId === 'green' && 'mask-green',
-				maskId === 'cyan' && 'mask-cyan',
-				maskId === 'purple' && 'mask-purple'
+				'participant',
+				participantId === 'a' && 'participant-a',
+				participantId === 'b' && 'participant-b',
+				participantId === 'c' && 'participant-c',
+				participantId === 'd' && 'participant-d',
+				participantId === 'e' && 'participant-e'
 			]}
 			style:--container-height={`${containerHeight}px`}
-			{@attach dragAndDrop()}
 		></div>
+		{#if maskId}
+			<div
+				class={[
+					'mask-drag-and-drop-pivot',
+					isDraggingMask.kind === 'yes' && 'dragging-in-progress'
+				]}
+				style:--drag-dx={isDraggingMask.kind === 'yes'
+					? `${isDraggingMask.currentX - isDraggingMask.startX}px`
+					: undefined}
+				style:--drag-dy={isDraggingMask.kind === 'yes'
+					? `${isDraggingMask.currentY - isDraggingMask.startY}px`
+					: undefined}
+			>
+				<div
+					class={[
+						'mask',
+						maskId === 'red' && 'mask-red',
+						maskId === 'yellow' && 'mask-yellow',
+						maskId === 'green' && 'mask-green',
+						maskId === 'cyan' && 'mask-cyan',
+						maskId === 'purple' && 'mask-purple'
+					]}
+					style:--container-height={`${containerHeight}px`}
+					{@attach dragAndDrop()}
+				></div>
+			</div>
+		{/if}
 	</div>
-{/if}
+</div>
 
 <style>
 	.participant,
@@ -106,7 +137,7 @@
 		position: absolute;
 		left: 0;
 		bottom: 0;
-		transform: translateX(-50%);
+		transform: translate3d(-50%, 0, 0);
 		height: var(--container-height);
 		aspect-ratio: 315 / 1125;
 
@@ -167,5 +198,99 @@
 
 	.mask-purple {
 		background-image: url($lib/venice/ParticipantsRow/mask_purple.png);
+	}
+
+	.decoration-animation-pivot:not(.revealed) {
+		opacity: 0;
+	}
+
+	.decoration-animation-pivot {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
+
+	.decoration-animation-pivot.revealed {
+		animation-name: appear;
+		animation-timing-function: ease-out;
+	}
+
+	.decoration-animation-pivot-a {
+		animation-duration: 1.5s;
+	}
+
+	.decoration-animation-pivot-b {
+		animation-duration: 2.2s;
+	}
+
+	.decoration-animation-pivot-c {
+		animation-duration: 2.9s;
+	}
+
+	.decoration-animation-pivot-d {
+		animation-duration: 3.6s;
+	}
+
+	.decoration-animation-pivot-e {
+		animation-duration: 4.3s;
+	}
+
+	@keyframes appear {
+		from {
+			transform: translate3d(20px, -80px, 0) scale(0.7);
+			opacity: 0;
+		}
+		to {
+			transform: translate3d(0, 0, 0) scale(1);
+			opacity: 1;
+		}
+	}
+
+	.jump-animation-pivot {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
+
+	.jump-animation-pivot.jump-animation-active {
+		animation-name: jump;
+		animation-duration: 1s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+	}
+
+	.jump-animation-pivot-a {
+		animation-delay: 1.5s;
+	}
+
+	.jump-animation-pivot-b {
+		animation-delay: 2.2s;
+	}
+
+	.jump-animation-pivot-c {
+		animation-delay: 2.9s;
+	}
+
+	.jump-animation-pivot-d {
+		animation-delay: 3.6s;
+	}
+
+	.jump-animation-pivot-e {
+		animation-delay: 4.3s;
+	}
+
+	@keyframes jump {
+		0% {
+			transform: translate3d(0, 0, 0);
+		}
+		10% {
+			transform: translate3d(0, -6px, 0);
+		}
+		20% {
+			transform: translate3d(0, 0, 0);
+		}
+		100% {
+			transform: translate3d(0, 0, 0);
+		}
 	}
 </style>

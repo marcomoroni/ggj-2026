@@ -4,13 +4,19 @@
 
 	let {
 		maskAssignments = $bindable(),
-		scrollToParticipantsRow = $bindable()
+		revealParticipantsRow = $bindable(),
+		scrollToParticipantsRow = $bindable(),
+		playJumpAnimations = $bindable()
 	}: {
 		maskAssignments: Record<ParticipantId, MaskId | undefined>;
+		revealParticipantsRow: () => void;
 		scrollToParticipantsRow: () => void;
+		playJumpAnimations: boolean;
 	} = $props();
 
 	let rowHeight = $state(0);
+
+	let isRevealed = $state(false);
 
 	function handleDropMask(sourceParticipantId: ParticipantId, targetParticipantId: ParticipantId) {
 		if (sourceParticipantId === targetParticipantId) return;
@@ -23,12 +29,20 @@
 	}
 
 	let participantRowElement = $state<HTMLDivElement>();
+	revealParticipantsRow = () => {
+		isRevealed = true;
+	};
 	scrollToParticipantsRow = () => {
 		participantRowElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 	};
 </script>
 
-<div class="row" bind:clientHeight={rowHeight} bind:this={participantRowElement}>
+<div
+	class="row"
+	bind:clientHeight={rowHeight}
+	bind:this={participantRowElement}
+	inert={!isRevealed}
+>
 	{#each participantIds as id}
 		<div class="pivot" data-participant-id={id}>
 			<Participant
@@ -36,6 +50,8 @@
 				maskId={maskAssignments[id]}
 				containerHeight={rowHeight}
 				onDropMask={(targetId) => handleDropMask(id, targetId)}
+				{isRevealed}
+				playJumpAnimation={playJumpAnimations}
 			/>
 		</div>
 	{/each}
