@@ -17,16 +17,43 @@
 		<li>The <span class="solution-cyan">Cyan</span> mask shall not occupy the central position.</li>
 	</ul>
 	<p>Drag and drop each mask upon its wearer.</p>
+	<div class="fade-overlay"></div>
 </div>
 
 <style>
 	.root {
+		--fade-size: 200px;
 		color: #f0eed7;
 		line-height: 1.6;
 		padding: 60px;
 		max-width: 800px;
 		padding-bottom: 30px;
 		margin-inline: auto;
+		position: relative;
+		overflow: clip;
+	}
+
+	.fade-overlay {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: calc(100% + var(--fade-size));
+		background: linear-gradient(
+			to top,
+			#1e2b08 0%,
+			#1e2b08 calc(100% - var(--fade-size)),
+			transparent 100%
+		);
+		pointer-events: none;
+		animation: reveal 2s ease-out 3s forwards;
+		animation-fill-mode: forwards;
+	}
+
+	@keyframes reveal {
+		to {
+			bottom: calc(-100% - var(--fade-size));
+		}
 	}
 
 	p,

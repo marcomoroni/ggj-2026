@@ -20,13 +20,8 @@
 	const transitionDuration = 400;
 
 	let state = $state<
-		| 'empty'
-		| 'showStartButton'
-		| 'correct'
-		| 'incorrect'
-		| 'showConfirmButton'
-		| 'showRestartButton'
-	>('showStartButton');
+		'empty' | 'start' | 'correct' | 'incorrect' | 'showConfirmButton' | 'showRestartButton'
+	>('start');
 
 	$effect(() => {
 		if (state === 'incorrect') {
@@ -36,13 +31,16 @@
 		}
 	});
 
-	function onStart() {
-		revealParticipantsRow();
-		state = 'empty';
-		setTimeout(() => {
-			state = 'showConfirmButton';
-		}, 4000);
-	}
+	$effect(() => {
+		if (state === 'start') {
+			setTimeout(() => {
+				revealParticipantsRow();
+			}, 1000);
+			setTimeout(() => {
+				state = 'showConfirmButton';
+			}, 5000);
+		}
+	});
 
 	function onConfirm() {
 		const isCorrect = Object.entries(maskAssignments).every(([participantId, maskId]) => {
@@ -71,15 +69,6 @@
 			onclick={onConfirm}
 		>
 			Confirm
-		</button>
-	{:else if state === 'showStartButton'}
-		<button
-			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
-			out:fade={{ duration: transitionDuration, easing: quadInOut }}
-			class="start-button"
-			onclick={onStart}
-		>
-			Start
 		</button>
 	{:else if state === 'showRestartButton'}
 		<button
@@ -135,7 +124,6 @@
 	}
 
 	.confirm-button,
-	.start-button,
 	.restart-button,
 	.label-correct-answers,
 	.label-incorrect-answers {
@@ -145,7 +133,6 @@
 	}
 
 	.confirm-button,
-	.start-button,
 	.restart-button {
 		margin-left: 30px;
 		margin-right: 30px;
