@@ -96,7 +96,7 @@
 			out:fade={{ duration: transitionDuration, easing: quadInOut }}
 			class="label-correct-answers"
 		>
-			Correct!
+			Splendidly done!
 		</div>
 	{:else if state === 'incorrect'}
 		<div
@@ -104,7 +104,7 @@
 			out:fade={{ duration: transitionDuration, easing: quadInOut }}
 			class="label-incorrect-answers"
 		>
-			Incorrect!
+			Alas, not quite!
 		</div>
 	{/if}
 </div>
