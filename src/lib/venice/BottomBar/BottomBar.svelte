@@ -2,6 +2,7 @@
 	import { quadInOut } from 'svelte/easing';
 	import { fade } from 'svelte/transition';
 	import { correctMaskAssignments, type MaskId, type ParticipantId } from '..';
+	import Button from './Button.svelte';
 
 	let {
 		maskAssignments,
@@ -65,23 +66,9 @@
 
 <div class="container">
 	{#if state === 'showConfirmButton'}
-		<button
-			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
-			out:fade={{ duration: transitionDuration, easing: quadInOut }}
-			class="confirm-button"
-			onclick={onConfirm}
-		>
-			Confirm
-		</button>
+		<Button onClick={onConfirm}>Confirm</Button>
 	{:else if state === 'showRestartButton'}
-		<button
-			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
-			out:fade={{ duration: transitionDuration, easing: quadInOut }}
-			class="restart-button"
-			onclick={restart}
-		>
-			Restart
-		</button>
+		<Button onClick={restart}>Restart</Button>
 	{:else if state === 'correct'}
 		<div
 			in:fade={{ delay: transitionDuration, duration: transitionDuration, easing: quadInOut }}
@@ -119,31 +106,18 @@
 		);
 	}
 
-	.container > * {
+	.container > :global(*) {
 		grid-column-start: 1;
 		grid-column-end: 2;
 		grid-row-start: 1;
 		grid-row-end: 2;
 	}
 
-	.confirm-button,
-	.restart-button,
 	.label-correct-answers,
 	.label-incorrect-answers {
 		margin-bottom: 30px;
 		height: 47px;
 		align-content: center;
-	}
-
-	.confirm-button,
-	.restart-button {
-		margin-left: 30px;
-		margin-right: 30px;
-		border-radius: calc(infinity * 1px);
-		padding-inline: 20px;
-		font-weight: 550;
-		background-color: #f0eed7;
-		color: #403c1c;
 	}
 
 	.label-correct-answers,
