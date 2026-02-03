@@ -146,6 +146,10 @@
 		background-repeat: no-repeat;
 	}
 
+	.mask {
+		touch-action: none;
+	}
+
 	.mask-drag-and-drop-pivot {
 		position: absolute;
 		left: 0;
